@@ -1,4 +1,6 @@
-const amplifyconfig = ''' {
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final amplifyconfig = ''' {
   "UserAgent": "aws-amplify-cli/2.0",
   "Version": "1.0",
   "auth": {
@@ -9,8 +11,8 @@ const amplifyconfig = ''' {
         },
         "CognitoUserPool": {
           "Default": {
-            "PoolId": "<PoolId>",
-            "AppClientId": "<AppClientId>",
+            "PoolId": "${dotenv.env['COGNITO_POOL_ID']}",
+            "AppClientId": "${dotenv.env['COGNITO_APP_CLIENT_ID']}",
             "Region": "ap-south-1"
           }
         },
