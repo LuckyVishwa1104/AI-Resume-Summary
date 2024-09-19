@@ -6,8 +6,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'amplifyconfiguration.dart';
 
-
-void main() async{
+void main() async {
   await dotenv.load();
   runApp(const MyApp());
 }
@@ -41,6 +40,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Authenticator(
+      signUpForm: SignUpForm.custom(fields: [
+        SignUpFormField.name(required: true),
+        SignUpFormField.email(required: true),
+        SignUpFormField.password(),
+        SignUpFormField.passwordConfirmation()
+      ]),
+      initialStep: AuthenticatorStep.signIn,
       child: MaterialApp(
         builder: Authenticator.builder(),
         debugShowCheckedModeBanner: false,
@@ -49,4 +55,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

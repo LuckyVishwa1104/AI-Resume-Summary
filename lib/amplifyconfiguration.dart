@@ -19,6 +19,14 @@ final amplifyconfig = ''' {
         "Auth": {
           "Default": {
             "authenticationFlowType": "USER_SRP_AUTH",
+            "usernameAttributes": ["email"],
+            "signupAttributes": [
+              "email", "name"
+             ],
+            "passwordProtectionSettings": {
+                "passwordPolicyMinLength": 8,
+                "passwordPolicyCharacters": []
+            }
           }
         }
       }
