@@ -1,4 +1,4 @@
-import 'package:ai_summary/pages/user_details.dart';
+import 'package:ai_summary/pages/home_page.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -29,11 +29,22 @@ class _MyAppState extends State<MyApp> {
     try {
       final auth = AmplifyAuthCognito();
       await Amplify.addPlugin(auth);
-
-      // call Amplify.configure to use the initialized categories in your app
       await Amplify.configure(amplifyconfig);
+
+      // After configuring Amplify, check the current user state
+      await _checkUserSession();
     } on Exception catch (e) {
       safePrint('An error occurred configuring Amplify: $e');
+    }
+  }
+
+  // Check if there is an active session
+  Future<void> _checkUserSession() async {
+    try {
+      final user = await Amplify.Auth.getCurrentUser();
+      safePrint('Current state $user');
+    } on AuthException catch (e) {
+      safePrint('User not signed in: $e');
     }
   }
 
@@ -50,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         builder: Authenticator.builder(),
         debugShowCheckedModeBanner: false,
-        home: UserDetails(),
+        home: HomePage(), // Navigate based on session
       ),
     );
   }
