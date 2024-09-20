@@ -31,14 +31,12 @@ class _MyAppState extends State<MyApp> {
       await Amplify.addPlugin(auth);
       await Amplify.configure(amplifyconfig);
 
-      // After configuring Amplify, check the current user state
       await _checkUserSession();
     } on Exception catch (e) {
       safePrint('An error occurred configuring Amplify: $e');
     }
   }
 
-  // Check if there is an active session
   Future<void> _checkUserSession() async {
     try {
       final user = await Amplify.Auth.getCurrentUser();
