@@ -11,7 +11,7 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
-  String? dob; // Optional date of birth
+  String? dob;
   String gender = '';
   String bio = '';
   String phoneNumber = '';
@@ -21,7 +21,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: const Text('User Profile'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -31,7 +31,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Name'),
+                  decoration:const InputDecoration(labelText: 'Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your name';
@@ -45,7 +45,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                   validator: (value) {
                     if (value == null || value.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                       return 'Please enter a valid email';
@@ -59,7 +59,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Phone Number'),
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your phone number';
@@ -73,7 +73,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Bio'),
+                  decoration:const  InputDecoration(labelText: 'Bio'),
                   maxLines: 3,
                   onChanged: (value) {
                     setState(() {
@@ -82,7 +82,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Gender'),
+                  decoration: const InputDecoration(labelText: 'Gender'),
                   onChanged: (value) {
                     setState(() {
                       gender = value;
@@ -112,16 +112,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   readOnly: true,
                   initialValue: dob,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       createUserProfile(name, dob, gender, bio, phoneNumber, email).then((_) {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomePage()));
                       });
                     }
                   },
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                 ),
               ],
             ),
@@ -156,7 +156,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
       print('UserProfile created: ${response.data}');
     } else {
       print('Errors: ${response.errors}');
-      // Handle error scenarios appropriately
     }
   }
 }

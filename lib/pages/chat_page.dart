@@ -1,6 +1,7 @@
-import 'package:ai_summary/services/chatgpt_service.dart';
+import 'package:ai_summary/services/gemini_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ai_summary/main.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 
 class ResumeForm extends StatefulWidget {
   @override
@@ -9,7 +10,8 @@ class ResumeForm extends StatefulWidget {
 
 class _ResumeFormState extends State<ResumeForm> {
   final _resumeController = TextEditingController();
-  final ChatGPTService _chatGPTService = ChatGPTService();
+  // final ChatGPTService _chatGPTService = ChatGPTService();
+  final GeminiService _geminiService = GeminiService();
 
   String _generatedIntroduction = '';
   bool _isLoading = false;
@@ -20,7 +22,7 @@ class _ResumeFormState extends State<ResumeForm> {
     });
 
     final resumeText = _resumeController.text;
-    final introduction = await _chatGPTService.generateIntroduction(resumeText);
+    final introduction = await _geminiService.generateIntroduction(resumeText);
 
     setState(() {
       _generatedIntroduction = introduction;
@@ -34,31 +36,51 @@ class _ResumeFormState extends State<ResumeForm> {
       appBar: AppBar(title: Text('Generate Introduction')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _resumeController,
-              maxLines: 10,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Paste Your Resume Here',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextField(
+                controller: _resumeController,
+                maxLines: 10,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Paste Your Resume Here',
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _generateIntroduction,
-                    child: Text('Generate Introduction'),
-                  ),
-            SizedBox(height: 20),
-            Text(
-              'Generated Self-Introduction:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(_generatedIntroduction),
-          ],
+              const SizedBox(height: 20),
+              _isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: _generateIntroduction,
+                      child: const Text('Generate Introduction'),
+                    ),
+              const SizedBox(height: 20),
+              const Text(
+                'Generated Self-Introduction:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Text(_generatedIntroduction),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await Amplify.Auth.signOut();
+                    // Navigate back to the sign-in screen
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MyApp()),
+                    );
+                  } catch (e) {
+                    safePrint('Error signing out: $e');
+                  }
+                },
+                child: const Text("Sign Out"),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -14,7 +13,7 @@ class ChatGPTService {
     };
 
     final body = jsonEncode({
-      'model': 'gpt-3.5-turbo', // or 'gpt-3.5-turbo'
+      'model': 'gpt-3.5-turbo',
       'messages': [
         {
           "role": "system",
@@ -27,7 +26,7 @@ class ChatGPTService {
               "Here is my resume: $resumeData. Can you generate a personalized self-introduction?"
         }
       ],
-      'max_tokens': 150, // Adjust the length as necessary
+      'max_tokens': 150,
     });
 
     try {
