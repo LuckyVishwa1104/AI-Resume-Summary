@@ -1,3 +1,4 @@
+import 'package:ai_summary/pages/chat_page.dart';
 import 'package:ai_summary/pages/home_page.dart';
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         builder: Authenticator.builder(),
         debugShowCheckedModeBanner: false,
-        home: HomePage(), // Navigate based on session
+        home: ResumeForm(), // Navigate based on session
       ),
     );
   }
