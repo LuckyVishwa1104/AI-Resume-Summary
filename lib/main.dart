@@ -59,7 +59,32 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         builder: Authenticator.builder(),
         debugShowCheckedModeBanner: false,
-        home: ResumeForm(), // Navigate based on session
+        theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white, 
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), 
+              ),
+              elevation: 4, // Shadow effect
+            ),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.blueAccent),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.blue, width: 2),
+            ),
+          ),
+        ),
+        home: ResumeForm(), 
       ),
     );
   }

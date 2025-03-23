@@ -10,7 +10,6 @@ class ResumeForm extends StatefulWidget {
 
 class _ResumeFormState extends State<ResumeForm> {
   final _resumeController = TextEditingController();
-  // final ChatGPTService _chatGPTService = ChatGPTService();
   final GeminiService _geminiService = GeminiService();
 
   String _generatedIntroduction = '';
@@ -30,29 +29,71 @@ class _ResumeFormState extends State<ResumeForm> {
     });
   }
 
+  Future<void> _signOut() async {
+    try {
+      await Amplify.Auth.signOut();
+      // Navigate back to the sign-in screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyApp()),
+      );
+    } catch (e) {
+      safePrint('Error signing out: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Generate Introduction')),
+      appBar: AppBar(
+        title: const Text(
+          'Generate Introduction',
+        ),
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: _signOut,
+            tooltip: "Logout",
+          ),
+        ],
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: 5,
+              ),
               TextField(
                 controller: _resumeController,
-                maxLines: 10,
+                maxLines: 5,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Paste Your Resume Here',
+                  labelText: 'Paste Your Resume Content Here',
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               _isLoading
-                  ? const CircularProgressIndicator()
+                  ? CircularProgressIndicator()
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black, // Background color
+                        foregroundColor: Colors.white, // Text color
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15), // Padding
+                        textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400), // Text style
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(12), // Rounded corners
+                        ),
+                        elevation: 2, // Shadow effect
+                      ),
                       onPressed: _generateIntroduction,
-                      child: const Text('Generate Introduction'),
+                      child: Text('Generate Introduction'),
                     ),
               const SizedBox(height: 20),
               const Text(
@@ -61,24 +102,6 @@ class _ResumeFormState extends State<ResumeForm> {
               ),
               const SizedBox(height: 10),
               Text(_generatedIntroduction),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await Amplify.Auth.signOut();
-                    // Navigate back to the sign-in screen
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MyApp()),
-                    );
-                  } catch (e) {
-                    safePrint('Error signing out: $e');
-                  }
-                },
-                child: const Text("Sign Out"),
-              ),
             ],
           ),
         ),

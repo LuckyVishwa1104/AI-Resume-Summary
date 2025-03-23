@@ -8,7 +8,9 @@ class GeminiService {
       model: 'gemini-1.5-flash',
       apiKey: apiKey,
     );
-    final prompt = "Here is my resume: $resumeData. Can you generate a personalized self-introduction?";
+    final prompt = """Here is my resume: $resumeData. 
+    
+    Can you generate a personalized self-introduction?""";
 
     final response = await model.generateContent([Content.text(prompt)]);
     return response.text!;
